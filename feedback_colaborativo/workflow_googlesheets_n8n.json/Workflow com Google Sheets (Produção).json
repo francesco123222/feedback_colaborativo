@@ -1,0 +1,380 @@
+{
+  "name": "Workflow com Google Sheets (Produção)",
+  "nodes": [
+    {
+      "parameters": {
+        "fromEmail": "seu_email@gmail.com",
+        "toEmail": "={{ $('Google Sheets Trigger').item.json[\"E-mail:\"] }}",
+        "subject": "=Obrigado pelo seu feedback, {{ $json.nome }}",
+        "html": "=<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n</head>\n<body style=\"margin: 0; padding: 0; background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333333;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"background-color: #f4f6f9; padding: 30px 0;\">\n        <tr>\n            <td align=\"center\">\n                <table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; padding: 30px;\">\n                    \n                    <!-- Cabeçalho -->\n                    <tr>\n                        <td style=\"border-bottom: 2px solid #0056b3; padding-bottom: 15px;\">\n                            <h2 style=\"margin: 0; color: #0056b3; font-size: 20px;\">Confirmação de Recebimento de Feedback</h2>\n                        </td>\n                    </tr>\n\n                    <!-- Saudação e Corpo -->\n                    <tr>\n                        <td style=\"padding: 20px 0 10px 0; font-size: 15px; line-height: 1.6;\">\n                            <p style=\"margin-top: 0;\">Olá, <strong>{{ $json.nome }}</strong>!</p>\n                            <p>Agradecemos por compartilhar suas considerações sobre o setor de <strong>{{ $json.departamento }}</strong>. Sua colaboração é fundamental para nossa melhoria contínua.</p>\n                        </td>\n                    </tr>\n\n                    <!-- Box de Resumo -->\n                    <tr>\n                        <td style=\"background-color: #f8f9fa; border-left: 4px solid #0056b3; padding: 15px; border-radius: 4px; margin: 15px 0;\">\n                            <h4 style=\"margin: 0 0 8px 0; color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;\">Resumo da sua manifestação:</h4>\n                            <p style=\"margin: 0; font-style: italic; color: #555555; font-size: 14px; line-height: 1.5;\">\n                                \"{{ $json.resumo }}\"\n                            </p>\n                        </td>\n                    </tr>\n\n                    <!-- Badges de Status com Cores Inteligentes -->\n                    <tr>\n                        <td style=\"padding: 20px 0;\">\n                            <table role=\"presentation\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n                                <tr>\n                                    <td style=\"padding-right: 10px;\">\n                                        <!-- Cor muda se for Alta/Urgente (Vermelho), Média (Amarelo) ou Baixa (Cinza) -->\n                                        <span style=\"background-color: {{ ['Alta', 'Urgente'].includes($json.prioridade) ? '#f8d7da' : ($json.prioridade == 'Média' ? '#fff3cd' : '#e2e3e5') }}; color: {{ ['Alta', 'Urgente'].includes($json.prioridade) ? '#721c24' : ($json.prioridade == 'Média' ? '#856404' : '#383d41') }}; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block;\">\n                                            Prioridade: {{ $json.prioridade }}\n                                        </span>\n                                    </td>\n                                    <td>\n                                        <!-- Cor muda se for Positivo (Verde), Negativo (Vermelho) ou Neutro (Azul/Cinza) -->\n                                        <span style=\"background-color: {{ $json.sentimento == 'Positivo' ? '#d4edda' : ($json.sentimento == 'Negativo' ? '#f8d7da' : '#e3f2fd') }}; color: {{ $json.sentimento == 'Positivo' ? '#155724' : ($json.sentimento == 'Negativo' ? '#721c24' : '#0d47a1') }}; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block;\">\n                                            Sentimento: {{ $json.sentimento }}\n                                        </span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </td>\n                    </tr>\n\n                    <!-- Conclusão -->\n                    <tr>\n                        <td style=\"font-size: 14px; line-height: 1.6; color: #555555; border-top: 1px solid #eeeeee; padding-top: 15px;\">\n                            <p style=\"margin: 0;\">Nossa equipe de gestão já foi notificada e avaliará as recomendações com a devida atenção.</p>\n                        </td>\n                    </tr>\n\n                    <!-- Assinatura -->\n                    <tr>\n                        <td style=\"padding-top: 25px; font-size: 14px; color: #333333;\">\n                            Atenciosamente,<br>\n                            <strong>Equipe de Gestão & RH</strong>\n                        </td>\n                    </tr>\n\n                </table>\n            </td>\n        </tr>\n    </table>\n</body>\n</html>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        352,
+        16
+      ],
+      "id": "92e01d9f-e970-4694-b92d-a4531de47f98",
+      "name": "Send an Email",
+      "webhookId": "fed31cce-4e7e-45ec-9f45-595f248432e2",
+      "credentials": {
+        "smtp": {
+          "id": "0k5oYzmaYHynperL",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "seu_id_csv",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        16
+      ],
+      "id": "b85a6f24-6a83-4dc9-8216-6069297e35fe",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "tpgwz35Tf4ix0R7I",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// 1. Pega o texto bruto que veio do nó do Gemini anterior\nconst textoBruto = $input.item.json.content.parts[0].text;\n\n// 2. Limpa os blocos de markdown igualzinho ao seu código Python\nconst textoLimpo = textoBruto.replace(/```json|```/g, '').trim();\n\n// 3. Converte a string limpa em um objeto JSON real para o n8n usar\nconst dadosIA = JSON.parse(textoLimpo);\n\n// 4. Retorna os dados prontos para o nó de e-mail ler\nreturn {\n  json: {\n    nome: $('Google Sheets Trigger').item.json[\"Nome:\"], \n    email: $('Google Sheets Trigger').item.json[\"E-mail:\"],\n    departamento: $('Google Sheets Trigger').item.json[\"Departamento:\"],\n    feedback_texto: $('Google Sheets Trigger').item.json[\"Deixe aqui seu Feedback:\"],\n    resumo: dadosIA.resumo,\n    prioridade: dadosIA.prioridade,\n    sentimento: dadosIA.sentimento || dadosIA.sentimentos,\n    pontos_positivos: dadosIA.pontos_positivos,\n    pontos_criticos: dadosIA.pontos_criticos,\n    recomendacoes_gestao: dadosIA.recomendacoes_gestao,\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        176,
+        16
+      ],
+      "id": "ce16e8dc-c6f2-42a1-9bce-cf92bfdd62c3",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "5d123b46-44ef-4739-ac6c-2e5b070501e3",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.4,
+      "position": [
+        -288,
+        16
+      ],
+      "id": "047e6e3f-3bb9-49c0-ba09-3e72a1e2b18f",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "seu_id_csv",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1393892155,
+          "mode": "list",
+          "cachedResultName": "Respostas ao formulário 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PWfOG4gHwtxYAg4sjQdZdD7k_sxXd_ZRHiiC_WIPRAo/edit#gid=1393892155"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status:": "Processado.",
+            "E-mail:": "={{ $json.envelope.to[0] }}",
+            "row_number": "={{ $('Google Sheets Trigger').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Carimbo de data/hora",
+              "displayName": "Carimbo de data/hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nome:",
+              "displayName": "Nome:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "E-mail:",
+              "displayName": "E-mail:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Departamento:",
+              "displayName": "Departamento:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Deixe aqui seu Feedback:",
+              "displayName": "Deixe aqui seu Feedback:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status:",
+              "displayName": "Status:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        576,
+        16
+      ],
+      "id": "825aafae-c978-4cba-a27a-378f7ca26006",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8hZ0Pj76Lu6pdpnt",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        256
+      ],
+      "id": "ec602892-0452-4371-9f92-fd21f78c06ec",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "fromEmail": "seu_email@gmail.com",
+        "toEmail": "seu_email@gmail.com",
+        "subject": "=[ALERTA de Erro] No nó: {{ $json.execution.lastNodeExecuted }} - Mensagem: {{ $json.execution.error.message }}",
+        "html": "=<h3>⚠️ Uma falha foi detectada no seu fluxo do n8n</h3>\n<p><strong>Workflow:</strong> {{ $json.workflow.name }} (ID: {{ $json.workflow.id }})</p>\n<p><strong>Nó que falhou:</strong> {{ $json.execution.lastNodeExecuted }}</p>\n<p><strong>Motivo do Erro:</strong> {{ $json.execution.error.message }}</p>\n<br>\n<p>➔ <a href=\"{{ $json.execution.url }}\">Clique aqui para abrir a execução com erro no n8n</a></p>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        128,
+        256
+      ],
+      "id": "148128a6-2058-4778-be57-85f21cb25be9",
+      "name": "Send an Email1",
+      "webhookId": "dd465012-08bc-48ae-9a1c-fe511f9251b0",
+      "credentials": {
+        "smtp": {
+          "id": "0k5oYzmaYHynperL",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3.1-flash-lite",
+          "mode": "list",
+          "cachedResultName": "Gemini 3.1 Flash Lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Você é um especialista em Recursos Humanos. Analise o feedback enviado pelo funcionário e retorne EXCLUSIVAMENTE em formato JSON puro, sem blocos de código markdown (sem ```json), contendo exatamente estas chaves:\n- resumo (string curta de até 2 frases)\n- sentimento (Positivo, Neutro ou Negativo)\n- prioridade (Baixa, Média, Alta ou Urgente)\n- pontos_positivos (lista de strings)\n- pontos_criticos (lista de strings)\n- recomendacoes_gestao (lista de strings)\n\nFeedback do colaborador: \"{{ $json[\"Deixe aqui seu Feedback:\"] }}\""
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        16
+      ],
+      "id": "9b23a07e-3dd3-485a-be7e-4bf2cfa3a3d6",
+      "name": "Message a model",
+      "retryOnFail": false,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "B5ZjhXsJRmWHITNq",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an Email": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send an Email1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "19b1bc36-21ba-4535-979c-1f20de85637b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "883f83a3a605bdc18f9a0a81f80f018b82b05406987d7dbb47dcb1a96cd27065"
+  },
+  "nodeGroups": [],
+  "id": "Hhz7vvCfSdJIW2b1",
+  "tags": []
+}
