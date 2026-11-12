@@ -3,30 +3,6 @@
   "nodes": [
     {
       "parameters": {
-        "fromEmail": "seu_email@gmail.com",
-        "toEmail": "={{ $('Google Sheets Trigger').item.json[\"E-mail:\"] }}",
-        "subject": "=Obrigado pelo seu feedback, {{ $json.nome }}",
-        "html": "=<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n</head>\n<body style=\"margin: 0; padding: 0; background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333333;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"background-color: #f4f6f9; padding: 30px 0;\">\n        <tr>\n            <td align=\"center\">\n                <table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; padding: 30px;\">\n                    \n                    <!-- Cabeçalho -->\n                    <tr>\n                        <td style=\"border-bottom: 2px solid #0056b3; padding-bottom: 15px;\">\n                            <h2 style=\"margin: 0; color: #0056b3; font-size: 20px;\">Confirmação de Recebimento de Feedback</h2>\n                        </td>\n                    </tr>\n\n                    <!-- Saudação e Corpo -->\n                    <tr>\n                        <td style=\"padding: 20px 0 10px 0; font-size: 15px; line-height: 1.6;\">\n                            <p style=\"margin-top: 0;\">Olá, <strong>{{ $json.nome }}</strong>!</p>\n                            <p>Agradecemos por compartilhar suas considerações sobre o setor de <strong>{{ $json.departamento }}</strong>. Sua colaboração é fundamental para nossa melhoria contínua.</p>\n                        </td>\n                    </tr>\n\n                    <!-- Box de Resumo -->\n                    <tr>\n                        <td style=\"background-color: #f8f9fa; border-left: 4px solid #0056b3; padding: 15px; border-radius: 4px; margin: 15px 0;\">\n                            <h4 style=\"margin: 0 0 8px 0; color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;\">Resumo da sua manifestação:</h4>\n                            <p style=\"margin: 0; font-style: italic; color: #555555; font-size: 14px; line-height: 1.5;\">\n                                \"{{ $json.resumo }}\"\n                            </p>\n                        </td>\n                    </tr>\n\n                    <!-- Badges de Status com Cores Inteligentes -->\n                    <tr>\n                        <td style=\"padding: 20px 0;\">\n                            <table role=\"presentation\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n                                <tr>\n                                    <td style=\"padding-right: 10px;\">\n                                        <!-- Cor muda se for Alta/Urgente (Vermelho), Média (Amarelo) ou Baixa (Cinza) -->\n                                        <span style=\"background-color: {{ ['Alta', 'Urgente'].includes($json.prioridade) ? '#f8d7da' : ($json.prioridade == 'Média' ? '#fff3cd' : '#e2e3e5') }}; color: {{ ['Alta', 'Urgente'].includes($json.prioridade) ? '#721c24' : ($json.prioridade == 'Média' ? '#856404' : '#383d41') }}; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block;\">\n                                            Prioridade: {{ $json.prioridade }}\n                                        </span>\n                                    </td>\n                                    <td>\n                                        <!-- Cor muda se for Positivo (Verde), Negativo (Vermelho) ou Neutro (Azul/Cinza) -->\n                                        <span style=\"background-color: {{ $json.sentimento == 'Positivo' ? '#d4edda' : ($json.sentimento == 'Negativo' ? '#f8d7da' : '#e3f2fd') }}; color: {{ $json.sentimento == 'Positivo' ? '#155724' : ($json.sentimento == 'Negativo' ? '#721c24' : '#0d47a1') }}; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block;\">\n                                            Sentimento: {{ $json.sentimento }}\n                                        </span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </td>\n                    </tr>\n\n                    <!-- Conclusão -->\n                    <tr>\n                        <td style=\"font-size: 14px; line-height: 1.6; color: #555555; border-top: 1px solid #eeeeee; padding-top: 15px;\">\n                            <p style=\"margin: 0;\">Nossa equipe de gestão já foi notificada e avaliará as recomendações com a devida atenção.</p>\n                        </td>\n                    </tr>\n\n                    <!-- Assinatura -->\n                    <tr>\n                        <td style=\"padding-top: 25px; font-size: 14px; color: #333333;\">\n                            Atenciosamente,<br>\n                            <strong>Equipe de Gestão & RH</strong>\n                        </td>\n                    </tr>\n\n                </table>\n            </td>\n        </tr>\n    </table>\n</body>\n</html>\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [
-        352,
-        16
-      ],
-      "id": "92e01d9f-e970-4694-b92d-a4531de47f98",
-      "name": "Send an Email",
-      "webhookId": "fed31cce-4e7e-45ec-9f45-595f248432e2",
-      "credentials": {
-        "smtp": {
-          "id": "0k5oYzmaYHynperL",
-          "name": "SMTP account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "pollTimes": {
           "item": [
             {
@@ -121,10 +97,10 @@
         },
         "sheetName": {
           "__rl": true,
-          "value": 1393892155,
+          "value": "",
           "mode": "list",
-          "cachedResultName": "Respostas ao formulário 1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PWfOG4gHwtxYAg4sjQdZdD7k_sxXd_ZRHiiC_WIPRAo/edit#gid=1393892155"
+          "cachedResultName": "",
+          "cachedResultUrl": ""
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -293,6 +269,30 @@
           "name": "Google Gemini(PaLM) Api account"
         }
       }
+    },
+    {
+      "parameters": {
+        "fromEmail": "seu_email@gmail.com",
+        "toEmail": "={{ $('Google Sheets Trigger').item.json[\"E-mail:\"] }}",
+        "subject": "=Obrigado pelo seu feedback, {{ $json.nome }}",
+        "html": "=<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n</head>\n<body style=\"margin: 0; padding: 0; background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333333;\">\n    <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"background-color: #f4f6f9; padding: 30px 0;\">\n        <tr>\n            <td align=\"center\">\n                <table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; padding: 30px;\">\n                    \n                    <!-- Cabeçalho -->\n                    <tr>\n                        <td style=\"border-bottom: 2px solid #0056b3; padding-bottom: 15px;\">\n                            <h2 style=\"margin: 0; color: #0056b3; font-size: 20px;\">Confirmação de Recebimento de Feedback</h2>\n                        </td>\n                    </tr>\n\n                    <!-- Saudação e Corpo -->\n                    <tr>\n                        <td style=\"padding: 20px 0 10px 0; font-size: 15px; line-height: 1.6;\">\n                            <p style=\"margin-top: 0;\">Olá, <strong>{{ $json.nome }}</strong>!</p>\n                            <p>Agradecemos por compartilhar suas considerações sobre o setor de <strong>{{ $json.departamento }}</strong>. Sua colaboração é fundamental para nossa melhoria contínua.</p>\n                        </td>\n                    </tr>\n\n                    <!-- Box de Resumo -->\n                    <tr>\n                        <td style=\"background-color: #f8f9fa; border-left: 4px solid #0056b3; padding: 15px; border-radius: 4px; margin: 15px 0;\">\n                            <h4 style=\"margin: 0 0 8px 0; color: #495057; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;\">Resumo da sua manifestação:</h4>\n                            <p style=\"margin: 0; font-style: italic; color: #555555; font-size: 14px; line-height: 1.5;\">\n                                \"{{ $json.resumo }}\"\n                            </p>\n                        </td>\n                    </tr>\n\n                    <!-- Badges de Status com Cores Inteligentes -->\n                    <tr>\n                        <td style=\"padding: 20px 0;\">\n                            <table role=\"presentation\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n                                <tr>\n                                    <td style=\"padding-right: 10px;\">\n                                        <!-- Cor muda se for Alta/Urgente (Vermelho), Média (Amarelo) ou Baixa (Cinza) -->\n                                        <span style=\"background-color: {{ ['Alta', 'Urgente'].includes($json.prioridade) ? '#f8d7da' : ($json.prioridade == 'Média' ? '#fff3cd' : '#e2e3e5') }}; color: {{ ['Alta', 'Urgente'].includes($json.prioridade) ? '#721c24' : ($json.prioridade == 'Média' ? '#856404' : '#383d41') }}; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block;\">\n                                            Prioridade: {{ $json.prioridade }}\n                                        </span>\n                                    </td>\n                                    <td>\n                                        <!-- Cor muda se for Positivo (Verde), Negativo (Vermelho) ou Neutro (Azul/Cinza) -->\n                                        <span style=\"background-color: {{ $json.sentimento == 'Positivo' ? '#d4edda' : ($json.sentimento == 'Negativo' ? '#f8d7da' : '#e3f2fd') }}; color: {{ $json.sentimento == 'Positivo' ? '#155724' : ($json.sentimento == 'Negativo' ? '#721c24' : '#0d47a1') }}; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block;\">\n                                            Sentimento: {{ $json.sentimento }}\n                                        </span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </td>\n                    </tr>\n\n                    <!-- Conclusão -->\n                    <tr>\n                        <td style=\"font-size: 14px; line-height: 1.6; color: #555555; border-top: 1px solid #eeeeee; padding-top: 15px;\">\n                            <p style=\"margin: 0;\">Nossa equipe de gestão já foi notificada e avaliará as recomendações com a devida atenção.</p>\n                        </td>\n                    </tr>\n\n                    <!-- Assinatura -->\n                    <tr>\n                        <td style=\"padding-top: 25px; font-size: 14px; color: #333333;\">\n                            Atenciosamente,<br>\n                            <strong>Equipe de Gestão & RH</strong>\n                        </td>\n                    </tr>\n\n                </table>\n            </td>\n        </tr>\n    </table>\n</body>\n</html>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        352,
+        16
+      ],
+      "id": "92e01d9f-e970-4694-b92d-a4531de47f98",
+      "name": "Send an Email",
+      "webhookId": "fed31cce-4e7e-45ec-9f45-595f248432e2",
+      "credentials": {
+        "smtp": {
+          "id": "0k5oYzmaYHynperL",
+          "name": "SMTP account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -330,17 +330,6 @@
         ]
       ]
     },
-    "Send an Email": {
-      "main": [
-        [
-          {
-            "node": "Update row in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Error Trigger": {
       "main": [
         [
@@ -362,6 +351,17 @@
           }
         ]
       ]
+    },
+    "Send an Email": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -369,7 +369,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "19b1bc36-21ba-4535-979c-1f20de85637b",
+  "versionId": "42a314c8-dab8-400a-94c9-146b9d7095c2",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "883f83a3a605bdc18f9a0a81f80f018b82b05406987d7dbb47dcb1a96cd27065"

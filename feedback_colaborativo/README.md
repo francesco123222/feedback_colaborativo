@@ -9,12 +9,12 @@
 O projeto depende de integrações com os serviços do ecossistema Google. Você precisará acessar as seguintes plataformas para gerar suas chaves:
 
 1. **Autenticação do Google Sheets:**
-   * Acesse o [Google Cloud Console](https://google.com).
+   * Acesse o [Google Cloud Console](https://console.cloud.google.com/).
    * Crie um projeto, ative a **Google Sheets API** e configure a *Tela de consentimento OAuth*.
    * Em *Credenciais*, crie um ID do cliente OAuth 2.0 para gerar seu **Client ID** e **Client Secret**, vinculando-os ao nó do Google Sheets no n8n.
 
 2. **Chave de API do Modelo de IA:**
-   * Acesse o [Google AI Studio](https://google.com).
+   * Acesse o [Google AI Studio](https://aistudio.google.com/).
    * Vá até a seção de chaves de API e clique em **Create API Key**.
    * Copie a chave gerada e insira-a na configuração de credencial do nó de IA (`Message a model`) do n8n.
 

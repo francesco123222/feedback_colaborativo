@@ -5,6 +5,7 @@
       "parameters": {
         "httpMethod": "POST",
         "path": "f8c970a5-2cfc-414c-abac-dde09687840e",
+        "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
@@ -19,54 +20,9 @@
     },
     {
       "parameters": {
-        "fieldToSplitOut": "body",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1.1,
-      "position": [
-        16,
-        240
-      ],
-      "id": "1fda51b1-e74c-479f-b7d4-3692fe6a1bbc",
-      "name": "Split Out"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "seu_id_csv",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "",
-          "mode": "list",
-          "cachedResultName": "",
-          "cachedResultUrl": ""
-        }
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        528,
-        240
-      ],
-      "id": "d2127e45-737e-4eca-8521-95f5301f08ec",
-      "name": "Update row in sheet",
-      "alwaysOutputData": false,
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "8hZ0Pj76Lu6pdpnt",
-          "name": "Google Sheets account 3"
-        }
-      }
-    },
-    {
-      "parameters": {
         "httpMethod": "POST",
         "path": "f8c970a5-2cfc-414c-abac-dde09687840e",
+        "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
@@ -115,7 +71,7 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        80,
+        176,
         32
       ],
       "id": "f4532697-5eea-4097-8991-ceef3394bcc1",
@@ -127,6 +83,185 @@
           "name": "SMTP account"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "seu_id_csv",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        240
+      ],
+      "id": "d2127e45-737e-4eca-8521-95f5301f08ec",
+      "name": "Update row in sheet (Webhook Sheets)",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8hZ0Pj76Lu6pdpnt",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "seu_id_csv",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultName": "",
+          "cachedResultUrl": ""
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status:": "Processado.",
+            "E-mail:": "={{ $json.envelope.to[0] }}"
+          },
+          "matchingColumns": [
+            "Status:"
+          ],
+          "schema": [
+            {
+              "id": "Carimbo de data/hora",
+              "displayName": "Carimbo de data/hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nome:",
+              "displayName": "Nome:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "E-mail:",
+              "displayName": "E-mail:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Departamento:",
+              "displayName": "Departamento:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Deixe aqui seu Feedback:",
+              "displayName": "Deixe aqui seu Feedback:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status:",
+              "displayName": "Status:",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        32
+      ],
+      "id": "6a45f342-1c4d-4d0f-ad18-f73bc43449e3",
+      "name": "Update row in sheet (Webhook)",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8hZ0Pj76Lu6pdpnt",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "5197f43b-672f-4954-bbc2-578e61efaedb",
+              "leftValue": "={{ $json.body.status }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.4,
+      "position": [
+        16,
+        32
+      ],
+      "id": "053462a2-5003-4cf6-8b50-259be830c543",
+      "name": "Filter (Webhook)"
     },
     {
       "parameters": {
@@ -160,7 +295,81 @@
         240
       ],
       "id": "9e0e092d-a13d-485e-a9da-2461abe19013",
-      "name": "Filter"
+      "name": "Filter (Sheets)"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1.1,
+      "position": [
+        16,
+        240
+      ],
+      "id": "1fda51b1-e74c-479f-b7d4-3692fe6a1bbc",
+      "name": "Split Out (Sheets)"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ...$('Webhook').item.json.body, status: $('Update row in sheet (Webhook)').item.json['Status:'] }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        688,
+        32
+      ],
+      "id": "f54f20df-8794-401f-8130-45fa455bd552",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ...$('Webhook Sheets').item.json.body, status: $('Update row in sheet (Webhook Sheets)').item.json['Status:'] }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        880,
+        240
+      ],
+      "id": "4c5068f1-8e03-470f-8782-64ef93e13125",
+      "name": "Respond to Webhook Sheets"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ JSON.stringify({ ...$('Webhook').item.json.body, status: $('Update row in sheet (Webhook)').item.json['Status:'] }) }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        512,
+        32
+      ],
+      "id": "8ada4869-1659-41fe-b6d3-37acd6ba1524",
+      "name": "Edit Fields Webhook"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ JSON.stringify({ ...$('Webhook Sheets').item.json.body[0], status: $('Update row in sheet (Webhook Sheets)').item.json['Status:'] }) }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        704,
+        240
+      ],
+      "id": "51f018be-3f94-4e01-b412-5aaa8aac509f",
+      "name": "Edit Fields Webhook Sheets"
     }
   ],
   "pinData": {},
@@ -169,18 +378,7 @@
       "main": [
         [
           {
-            "node": "Send an Email Webhook",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Out": {
-      "main": [
-        [
-          {
-            "node": "Filter",
+            "node": "Filter (Webhook)",
             "type": "main",
             "index": 0
           }
@@ -191,7 +389,7 @@
       "main": [
         [
           {
-            "node": "Split Out",
+            "node": "Split Out (Sheets)",
             "type": "main",
             "index": 0
           }
@@ -202,18 +400,95 @@
       "main": [
         [
           {
-            "node": "Update row in sheet",
+            "node": "Update row in sheet (Webhook Sheets)",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Filter": {
+    "Send an Email Webhook": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet (Webhook)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet (Webhook Sheets)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields Webhook Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "Send an Email Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter (Sheets)": {
       "main": [
         [
           {
             "node": "Send an Email Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out (Sheets)": {
+      "main": [
+        [
+          {
+            "node": "Filter (Sheets)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields Webhook Sheets": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook Sheets",
             "type": "main",
             "index": 0
           }
@@ -226,7 +501,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "10b10a2a-172f-45fa-a6eb-a93867150aeb",
+  "versionId": "62899748-4eb2-4c24-9631-782961407adf",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "883f83a3a605bdc18f9a0a81f80f018b82b05406987d7dbb47dcb1a96cd27065"
